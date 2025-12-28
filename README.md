@@ -1,5 +1,7 @@
 # Task Manager
 
+![Task Manager Screenshot](./screenshot.png)
+
 A premium, dynamic task management application built with Vite and Vanilla JavaScript.
 
 ## Features
