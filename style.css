@@ -55,6 +55,7 @@ h1 {
   margin-bottom: 2rem;
   text-align: center;
   background: linear-gradient(to right, #00d2ff, #3a7bd5);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.05rem;
@@ -62,13 +63,14 @@ h1 {
 
 .input-group {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
   position: relative;
+  flex-wrap: wrap; /* Wraps on mobile */
+  align-items: stretch; /* Ensures equal height */
 }
 
-input[type="text"] {
-  flex: 1;
+input[type="text"], input[type="date"] {
   padding: 1rem 1.5rem;
   border-radius: 12px;
   border: 1px solid var(--glass-border);
@@ -77,27 +79,45 @@ input[type="text"] {
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
+  font-family: var(--font-family);
+  height: 54px; /* Explicit height to match button */
 }
 
-input[type="text"]:focus {
-  border-color: var(--accent-color);
-  box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+input[type="text"] {
+  flex: 1 1 300px; /* Grow, Shrink, Basis: ensures it takes most space but wraps if <300px */
+}
+
+input[type="date"] {
+  flex: 0 0 auto; /* Don't grow or shrink unexpectedly */
+  width: auto;
+  min-width: 140px; /* Ensure date is always readable */
+  color-scheme: dark;
+  cursor: text;
+}
+
+input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
 }
 
 button {
   cursor: pointer;
   border: none;
   border-radius: 12px;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   font-weight: 600;
-  font-size: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 0.95rem;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+  font-family: var(--font-family);
+  flex-shrink: 0; /* Prevent button from shrinking */
+  height: 54px; /* Match input height */
 }
 
 .add-btn {
   background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+  white-space: nowrap;
 }
 
 .add-btn:hover {
@@ -105,6 +125,55 @@ button {
   box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
 }
 
+/* Controls Controls */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filters {
+  display: flex;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+}
+
+.filter-btn {
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.filter-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.filter-btn:hover:not(.active) {
+  color: white;
+}
+
+.clear-btn {
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.clear-btn:hover {
+  color: var(--danger-color);
+  background: rgba(255, 75, 75, 0.1);
+}
+
+/* Task List */
 .task-list {
   list-style: none;
   display: flex;
@@ -122,6 +191,14 @@ button {
   align-items: center;
   transition: all 0.3s ease;
   animation: slideIn 0.4s ease-out forwards;
+  cursor: padding; /* Indicates draggable via grip, logic handled in js */
+}
+
+/* Dragging Styles */
+.task-item.dragging {
+  opacity: 0.5;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px dashed var(--accent-color);
 }
 
 .task-item:hover {
@@ -129,6 +206,7 @@ button {
   transform: translateX(5px);
 }
 
+/* Draggable handle implicitly entire item or specific */
 .task-content {
   display: flex;
   align-items: center;
@@ -145,6 +223,7 @@ button {
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .checkbox:checked {
@@ -163,9 +242,21 @@ button {
   font-weight: bold;
 }
 
+.task-details {
+  display: flex;
+  flex-direction: column;
+}
+
 .task-text {
   font-size: 1.1rem;
   transition: color 0.3s;
+  cursor: text;
+}
+
+.task-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
 }
 
 .task-item.completed .task-text {
@@ -173,11 +264,24 @@ button {
   color: var(--text-muted);
 }
 
+.edit-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--accent-color);
+  color: white;
+  font-size: 1.1rem;
+  outline: none;
+  width: 100%;
+  padding: 0;
+  font-family: var(--font-family);
+}
+
 .delete-btn {
   background: rgba(255, 75, 75, 0.1);
   color: var(--danger-color);
   padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  margin-left: 1rem;
 }
 
 .delete-btn:hover {

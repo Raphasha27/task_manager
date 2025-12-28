@@ -8,6 +8,7 @@ A premium, dynamic task management application built with Vite and Vanilla JavaS
 - **Task Management**: Add, edit, and delete tasks easily.
 - **Local Storage**: Your tasks are saved automatically.
 - **Responsive**: Works beautifully on all devices.
+- **Live Demo / Algo**: [Task Manager Repository](https://github.com/Raphasha27/task_manager)
 
 ## Getting Started
 
