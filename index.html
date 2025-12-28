@@ -4,10 +4,27 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>task_manager</title>
+    <title>Task Manager | Premium Edition</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="app">
+      <div class="glass-container">
+        <h1>Task Master</h1>
+        
+        <div class="input-group">
+          <input type="text" id="taskInput" placeholder="What needs to be done?" autocomplete="off">
+          <button id="addBtn" class="add-btn">Add Task</button>
+        </div>
+
+        <ul id="taskList" class="task-list">
+          <!-- Tasks will be injected here -->
+        </ul>
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
   </body>
 </html>
