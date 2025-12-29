@@ -4,37 +4,65 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task Manager | Premium Edition</title>
-    <!-- Google Fonts -->
+    <title>Task Master | AI Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
     <div id="app">
+      <div class="glass-bg-blur"></div>
       <div class="glass-container">
-        <h1>Task Master</h1>
+        <!-- Logo Section -->
+        <h1 class="app-title">
+          Task <span class="title-accent">Master</span>
+           <div class="logo-check">✓</div>
+        </h1>
         
-        <div class="input-group">
+        <!-- Input Row -->
+        <div class="input-row">
           <input type="text" id="taskInput" placeholder="What needs to be done?" autocomplete="off">
-          <input type="date" id="dateInput">
-          <button id="addBtn" class="add-btn">Add</button>
+          
+          <div class="date-wrapper">
+            <input type="date" id="dateInput">
+            <div class="calendar-icon">📅</div>
+          </div>
+
+          <button id="addBtn" class="add-btn">Add +</button>
         </div>
 
-        <div class="controls">
-          <div class="filters">
+        <!-- Controls Row -->
+        <div class="controls-row">
+          <div class="filters-group">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="active">Active</button>
             <button class="filter-btn" data-filter="completed">Completed</button>
           </div>
-          <button id="clearBtn" class="clear-btn">Clear Completed</button>
+          <div class="right-controls">
+             <button id="aiBtn" class="ai-btn">✨ AI Tips</button>
+             <button id="clearBtn" class="clear-btn">Clear Completed 🗑</button>
+          </div>
         </div>
 
+        <!-- Task List -->
         <ul id="taskList" class="task-list">
-          <!-- Tasks will be injected here -->
+          <!-- Tasks injected via JS -->
         </ul>
+        
+        <!-- AI Suggestion Area (Hidden by default) -->
+        <div id="aiPanel" class="ai-panel hidden">
+           <div class="ai-header">
+             <span>🤖 AI Assistant</span>
+             <button id="closeAiBtn" class="close-ai">×</button>
+           </div>
+           <div id="aiContent" class="ai-content">
+             <!-- AI content goes here -->
+           </div>
+        </div>
+
       </div>
     </div>
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
