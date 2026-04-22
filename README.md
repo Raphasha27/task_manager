@@ -1,8 +1,10 @@
-# Task Manager
+# 📝 KIROV DYNAMICS | TASK MANAGER
 
-![Task Manager Screenshot](./screenshot.png)
+[![Kirov Dynamics](https://img.shields.io/badge/Kirov_Dynamics-AI_Implementation-002D62?style=for-the-badge&labelColor=0d1117)](https://github.com/Raphasha27)
+![Role](https://img.shields.io/badge/Role-AI_Implementation_Engineer-blue?style=for-the-badge&labelColor=0d1117)
 
-A premium, dynamic task management application built with Vite and Vanilla JavaScript.
+**Task Manager** is a premium, dynamic task management application built for high-productivity environments. Developed by **Kirov Dynamics Technology**, it demonstrates elite **AI Implementation Engineering** by providing a lightweight, high-performance tool for daily operational excellence.
+
 
 ## Features
 
