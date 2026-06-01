@@ -1,15 +1,39 @@
 {
-  "name": "task-manager",
+  "name": "task-master-ai",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
+  "description": "A premium glassmorphism task manager with built-in timer, drag-and-drop, and AI-powered productivity insights",
+  "author": "Koketso Raphasha (Raphasha27)",
+  "license": "MIT",
+  "keywords": [
+    "task-manager",
+    "productivity",
+    "glassmorphism",
+    "vite",
+    "ai-insights",
+    "javascript",
+    "todo-app"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Raphasha27/task_manager"
+  },
+  "homepage": "https://github.com/Raphasha27/task_manager#readme",
+  "bugs": {
+    "url": "https://github.com/Raphasha27/task_manager/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src/ main.js --ext .js",
+    "format": "prettier --write 'src/**/*.js' 'main.js' 'style.css'"
   },
   "dependencies": {},
   "devDependencies": {
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
     "vite": "^6.0.0"
   }
 }
