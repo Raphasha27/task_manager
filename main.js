@@ -1,7 +1,10 @@
 import './style.css';
 
 // State Management
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [
+let tasks = (() => {
+  try { return JSON.parse(localStorage.getItem('tasks')); }
+  catch { return null; }
+})() || [
   { id: 1, text: 'Complete the project documentation', completed: true, dueDate: null, timeSpent: 0, isRunning: false },
   { id: 2, text: 'Review pull requests', completed: false, dueDate: '2025-01-15', timeSpent: 3600, isRunning: false }, // 1 hr example
   { id: 3, text: 'Design system update', completed: false, dueDate: null, timeSpent: 0, isRunning: false }
@@ -16,10 +19,11 @@ const addBtn = document.getElementById('addBtn');
 const taskList = document.getElementById('taskList');
 const filterBtns = document.querySelectorAll('.filter-btn');
 const clearBtn = document.getElementById('clearBtn');
-const aiBtn = document.getElementById('aiBtn'); // New
-const aiPanel = document.getElementById('aiPanel'); // New
-const closeAiBtn = document.getElementById('closeAiBtn'); // New
+const aiBtn = document.getElementById('aiBtn');
+const aiPanel = document.getElementById('aiPanel');
+const closeAiBtn = document.getElementById('closeAiBtn');
 const aiContent = document.getElementById('aiContent');
+const dateWrapper = document.querySelector('.date-wrapper');
 
 // Functions
 const updateDateDisplay = () => {
@@ -39,9 +43,12 @@ const updateDateDisplay = () => {
 };
 
 const saveTasks = () => {
-    // Note: We don't save isRunning state as true across reloads to avoid background timer issues
+  try {
     const tasksToSave = tasks.map(t => ({ ...t, isRunning: false }));
     localStorage.setItem('tasks', JSON.stringify(tasksToSave));
+  } catch (e) {
+    console.warn('Failed to save tasks to localStorage:', e);
+  }
 };
 
 const formatTime = (seconds) => {
@@ -93,10 +100,12 @@ const createTaskElement = (task) => {
   checkbox.addEventListener('change', () => toggleTask(task.id));
 
   const deleteBtn = li.querySelector('.delete-btn');
-  deleteBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    deleteTask(task.id);
-  });
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteTask(task.id);
+    });
+  }
   
   // Timer Logic
   const timerBtn = li.querySelector('.timer-btn');
@@ -151,8 +160,9 @@ const renderTasks = () => {
 };
 
 const addTask = () => {
+  if (!taskInput) return;
   const text = taskInput.value.trim();
-  const date = dateInput.value;
+  const date = dateInput ? dateInput.value : '';
   if (!text) return;
 
   const newTask = {
@@ -168,8 +178,8 @@ const addTask = () => {
   saveTasks();
   renderTasks();
   taskInput.value = '';
-  dateInput.value = '';
-  updateDateDisplay(); // Reset button
+  if (dateInput) dateInput.value = '';
+  updateDateDisplay();
   taskInput.focus();
 };
 
@@ -312,34 +322,29 @@ const toggleAI = () => {
     }
 };
 
-aiBtn.addEventListener('click', toggleAI);
-closeAiBtn.addEventListener('click', () => aiPanel.classList.add('hidden'));
+// Event Listeners
+if (aiBtn) aiBtn.addEventListener('click', toggleAI);
+if (closeAiBtn) closeAiBtn.addEventListener('click', () => aiPanel && aiPanel.classList.add('hidden'));
 
-
-// Event Listeners for Core
-addBtn.addEventListener('click', addTask);
-taskInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTask(); });
+if (addBtn) addBtn.addEventListener('click', addTask);
+if (taskInput) taskInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTask(); });
 
 // Date Picker Handling
-const dateWrapper = document.querySelector('.date-wrapper');
-dateInput.addEventListener('change', updateDateDisplay);
+if (dateInput) dateInput.addEventListener('change', updateDateDisplay);
 
-dateWrapper.addEventListener('click', () => {
+if (dateWrapper) {
+  dateWrapper.addEventListener('click', () => {
     try {
-        dateInput.showPicker();
+      dateInput.showPicker();
     } catch (err) {
-        console.log("picker fallback", err);
-        // Fallback for browsers (like Firefox < 101) where showPicker might fail or need visibility
-        // We temporarily make it visible/clickable to force a click?
-        // Or just rely on standard behavior if showPicker fails (which is rare in modern browsers now)
-        // Let's try focusing it at least.
-        dateInput.focus();
-        dateInput.click();
+      console.warn("date picker fallback", err);
+      if (dateInput) { dateInput.focus(); dateInput.click(); }
     }
-});
+  });
+}
 
-clearBtn.addEventListener('click', clearCompleted);
-filterBtns.forEach(btn => { btn.addEventListener('click', () => setFilter(btn.dataset.filter)); });
+if (clearBtn) clearBtn.addEventListener('click', clearCompleted);
+if (filterBtns) filterBtns.forEach(btn => { btn.addEventListener('click', () => setFilter(btn.dataset.filter)); });
 
 // Initial Render
 renderTasks();
