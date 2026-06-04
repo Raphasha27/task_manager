@@ -46,6 +46,7 @@ target/
 # Environment Configs
 .env
 .env.local
+.env.production
 .env.development.local
 .env.test.local
 .env.production.local
@@ -57,3 +58,6 @@ target/
 Thumbs.db
 *.log
 *.pid
+
+# Vercel
+.vercel
