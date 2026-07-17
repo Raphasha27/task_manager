@@ -1,5 +1,7 @@
 # Task Manager
 
+[![CI](https://github.com/Raphasha27/task_manager/actions/workflows/ci-node.yml/badge.svg)](https://github.com/Raphasha27/task_manager/actions/workflows/ci-node.yml)
+
 Professional task orchestration and productivity engine with team collaboration tools
 
 ## Getting Started
